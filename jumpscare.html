@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>image_friendly</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+    }
+
+    video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+    }
+</style>
+</head>
+<body>
+
+<video id="scare" src="jumpscare.mp4" autoplay playsinline></video>
+
+<script>
+const vid = document.getElementById("scare");
+
+vid.onended = () => {
+    // After jumpscare finishes, send to Google
+    window.location.href = "https://youtube.com/@GatoExplotano2?sub_confirmation=1";
+};
+
+// Some mobile browsers block autoplay without sound unlock
+// This tries to force-start the video
+document.body.addEventListener("touchstart", () => {
+    vid.play();
+}, { once: true });
+</script>
+
+</body>
+</html>

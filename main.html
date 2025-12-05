@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cat Clicker</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: white;
+        font-family: Arial, sans-serif;
+        user-select: none;
+        touch-action: manipulation;
+    }
+
+    #score {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        color: black;
+        z-index: 999;
+    }
+
+    .cat {
+        position: absolute;
+        width: 150px;   /* bigger cats */
+        height: auto;
+        cursor: pointer;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        touch-action: manipulation;
+    }
+</style>
+</head>
+<body>
+
+<div id="score">Score: 0</div>
+
+<script>
+let score = 0;
+const scoreDisplay = document.getElementById("score");
+
+const catData = [
+    { src: "Cat.defoult.dance.gif", points: 2, sound: "Click.defoult.mp3" },
+    { src: "Cat.fire.dance.gif", points: 10, sound: "Click.fire.mp3" },
+    { src: "Cat.holy.dance.gif", points: 25, sound: "Click.holy.mp3" }
+];
+
+function spawnCat() {
+
+    const cat = document.createElement("img");
+
+    const randomCat = catData[Math.floor(Math.random() * catData.length)];
+
+    cat.src = randomCat.src;
+    cat.className = "cat";
+
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
+
+    cat.style.left = x + "px";
+    cat.style.top = y + "px";
+
+    document.body.appendChild(cat);
+
+    cat.addEventListener("click", () => {
+        score += randomCat.points;
+        scoreDisplay.textContent = "Score: " + score;
+
+        new Audio(randomCat.sound).play();
+
+        cat.remove();
+
+        if (score >= 101) {
+            window.location.href = "jumpscare.html";
+        }
+    });
+
+    setTimeout(() => {
+        if (cat.parentNode) cat.remove();
+    }, 2500);
+}
+
+setInterval(spawnCat, 550);  // faster spawn rate
+
+spawnCat();
+</script>
+
+</body>
+</html>
